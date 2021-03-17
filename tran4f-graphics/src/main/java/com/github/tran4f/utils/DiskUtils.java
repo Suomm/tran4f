@@ -28,7 +28,7 @@ public final class DiskUtils {
     }
 
     static {
-        System.loadLibrary("./deployment");
+        System.loadLibrary("./library");
     }
 
     /**
