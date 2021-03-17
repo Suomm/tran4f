@@ -16,19 +16,16 @@
 
 package com.github.tran4f.loader;
 
+import com.github.tran4f.annotation.Argument;
 import com.github.tran4f.domain.Settings;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.security.Provider;
-
-import static org.junit.jupiter.api.Assertions.*;
+import java.lang.reflect.Field;
 
 /**
- * <p>
- * 2021/3/17
- * </p>
+ * <p>模块加载器测试。
  *
  * @author 王帅
  * @since 1.0
@@ -40,11 +37,14 @@ class ModuleLoaderTest {
     Settings settings;
 
     @Test
-    void load() {
-        ModuleLoader.load(settings.getBasePath(), settings.getModules()).forEach((k, v) -> {
-            System.out.println("module name:" + k);
-            System.out.println("module prop:" + v);
-        });
+    void load() throws Exception {
+        ModuleLoader.load(settings.getBasePath(), settings.getModules())
+                .forEach((k, v) -> System.out.println("name:" + k + " <===> " + "prop:" + v.description()));
+        Class<?> aClass = ModuleLoader.moduleLayer
+                .findLoader("tran4f.config")
+                .loadClass("com.github.tran4f.mode.Capacity");
+        Field field = aClass.getDeclaredField("capacity");
+        System.out.println(field.getAnnotation(Argument.class).value());
     }
 
 }

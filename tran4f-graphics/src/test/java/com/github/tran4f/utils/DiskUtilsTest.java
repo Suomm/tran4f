@@ -32,7 +32,12 @@ class DiskUtilsTest {
 
     @Test
     void isUSBDriver() {
-        System.out.println(DiskUtils.isUSBDriver('C'));
+        char symbol = 'C';
+        String sb = "盘符" +
+                symbol +
+                "所表示的磁盘类型是否为U盘：" +
+                DiskUtils.isUSBDriver(symbol);
+        System.out.println(sb);
     }
 
 }
