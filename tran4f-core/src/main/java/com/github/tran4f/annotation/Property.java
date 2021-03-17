@@ -37,14 +37,14 @@ public @interface Property {
      *
      * @return 名称
      */
-    String name();
+    String title();
 
     /**
      * 拓展模块的有关描述。
      *
      * @return 描述
      */
-    String details() default "";
+    String description() default "";
 
     /**
      * 拓展模块的版本信息。

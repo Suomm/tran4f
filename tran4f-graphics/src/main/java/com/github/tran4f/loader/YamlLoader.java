@@ -17,35 +17,38 @@
 package com.github.tran4f.loader;
 
 import com.github.tran4f.domain.Settings;
-import com.github.tran4f.support.Tran4fException;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * XML 资源文件的加载器。
+ * YAML 资源文件的加载器。
  *
  * @author 王帅
  */
+@Configuration
 public class YamlLoader {
 
-    private static final Settings SETTINGS;
-
-    static {
-        try (
-                FileInputStream fis = new FileInputStream("conf/settings.yml");
-                BufferedInputStream bis = new BufferedInputStream(fis)
-        ) {
-            SETTINGS = new Yaml().loadAs(bis, Settings.class);
+    /**
+     * 注册配置文件类。
+     *
+     * @return 设置
+     */
+    @Bean
+    public Settings settings() {
+        try (BufferedReader br = new BufferedReader(
+                new FileReader("conf/settings.yml"))) {
+            Settings settings = new Yaml().loadAs(br, Settings.class);
+            if (settings == null)
+                settings = new Settings();
+            return settings.init();
         } catch (IOException e) {
-            throw new Tran4fException(e);
+            return new Settings().init();
         }
-    }
-
-    public static Settings getSettings() {
-        return SETTINGS;
     }
 
 }

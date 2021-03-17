@@ -19,15 +19,15 @@ package com.github.tran4f.loader;
 import com.github.tran4f.annotation.Property;
 
 import java.lang.module.Configuration;
+import java.lang.module.FindException;
 import java.lang.module.ModuleFinder;
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * <p>
- * 2021/2/28
- * </p>
+ * <p>模块加载。
  *
  * @author 王帅
  * @since 1.0
@@ -37,23 +37,23 @@ public final class ModuleLoader {
     private ModuleLoader() {
     }
 
-    private static final String BASE_PATH = "./";
-
     /**
      * 根据模块名称，加载模块。
      *
+     * @param basePath 模块所在路径
      * @param names 模块名称
+     * @return 加载之后的信息
+     * @exception FindException 模块加载失败
      */
-    public static void load(Collection<String> names) {
-        ModuleFinder finder = ModuleFinder.of(Path.of(BASE_PATH));
+    public static Map<String, Property> load(Collection<String> basePath, Collection<String> names) {
+        ModuleFinder finder = ModuleFinder.of(basePath.stream().map(Path::of).toArray(Path[]::new));
         ModuleLayer parent = ModuleLayer.boot();
         Configuration cf = parent.configuration().resolve(finder, ModuleFinder.of(), names);
         ClassLoader scl = ClassLoader.getSystemClassLoader();
         ModuleLayer layer = parent.defineModulesWithOneLoader(cf, scl);
-        layer.modules()
+        return layer.modules()
                 .stream()
-                .collect(Collectors.toMap(Module::getName, e -> e.getAnnotation(Property.class)))
-                .forEach((a, b) -> System.out.println(a + " === " + b));
+                .collect(Collectors.toMap(Module::getName, e -> e.getAnnotation(Property.class)));
     }
 
 }

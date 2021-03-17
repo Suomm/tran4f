@@ -16,21 +16,26 @@
 
 package com.github.tran4f.loader;
 
+import com.github.tran4f.domain.Settings;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 /**
  * <p>
- * 2021/2/28
- * </p>
  *
  * @author 王帅
  * @since 1.0
  */
-public class YamlLoaderTest {
+@SpringBootTest(classes = YamlLoader.class)
+class YamlLoaderTest {
+
+    @Autowired
+    Settings settings;
 
     @Test
-    public void get() {
-        System.out.println(YamlLoader.getSettings().getModules());
+    void load() {
+        System.out.println(settings);
     }
 
 }

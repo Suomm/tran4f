@@ -1,3 +1,6 @@
+# basePath 模块所在路径（默认 ./）
+# modules 模块名称（默认加载模块 tran4f.config）
+basePath:
+  - D:/Document
 modules:
   - tran4f.config
-  - test.abc

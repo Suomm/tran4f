@@ -20,12 +20,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * <p>
- * 2021/2/28
- * </p>
+ * <p>封装配置信息。
  *
  * @author 王帅
  * @since 1.0
@@ -35,6 +34,23 @@ import java.util.Set;
 @AllArgsConstructor
 public class Settings {
 
+    /** 模块名称（默认模块 {@code tran4f.config}） */
     private Set<String> modules;
+    /** 读取模块的路径位置（默认位置 {@code ./}） */
+    private Set<String> basePath;
+
+    /**
+     * 初始化一些基本的配置。
+     *
+     * @return {@code this}
+     */
+    public Settings init() {
+        if (modules == null) modules = new LinkedHashSet<>();
+        if (basePath == null) basePath = new LinkedHashSet<>();
+        // 基本的配置
+        modules.add("tran4f.config");
+        basePath.add("./");
+        return this;
+    }
 
 }

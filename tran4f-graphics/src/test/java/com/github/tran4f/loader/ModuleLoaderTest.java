@@ -16,23 +16,35 @@
 
 package com.github.tran4f.loader;
 
+import com.github.tran4f.domain.Settings;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Set;
+import java.security.Provider;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * <p>
+ * 2021/3/17
+ * </p>
  *
  * @author 王帅
  * @since 1.0
  */
-public class ModuleLoaderTest {
+@SpringBootTest(classes = YamlLoader.class)
+class ModuleLoaderTest {
+
+    @Autowired
+    Settings settings;
 
     @Test
     void load() {
-//        ModuleLoader.load(Set.of("tran4f.config"));
+        ModuleLoader.load(settings.getBasePath(), settings.getModules()).forEach((k, v) -> {
+            System.out.println("module name:" + k);
+            System.out.println("module prop:" + v);
+        });
     }
+
 }
