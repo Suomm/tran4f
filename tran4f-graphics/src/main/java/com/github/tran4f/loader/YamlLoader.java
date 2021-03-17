@@ -42,11 +42,15 @@ public class YamlLoader {
     public Settings settings() {
         try (BufferedReader br = new BufferedReader(
                 new FileReader("conf/settings.yml"))) {
+            // 根据 settings.yml 文件创建实体类
             Settings settings = new Yaml().loadAs(br, Settings.class);
+            // 配置文件里没有任何内容
             if (settings == null)
                 settings = new Settings();
+            // 初始化默认设置
             return settings.init();
         } catch (IOException e) {
+            // 文件不存在直接返回默认设置
             return new Settings().init();
         }
     }
