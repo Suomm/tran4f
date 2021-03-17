@@ -22,7 +22,7 @@ import com.github.tran4f.annotation.Property;
  * @author 王帅
  * @since 1.0
  */
-@Property(name = "基础模块", details = "内置模块系统",
+@Property(title = "基础模块", description = "内置模块系统",
         version = "1.0.0", author = "王帅", website = "https://github.com/Suomm/tran4f")
 open module tran4f.config {
     requires tran4f.core;
